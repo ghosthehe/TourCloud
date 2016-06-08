@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "MSCellModel.h"
+#import "TCMainPageParserItem.h"
 
 @interface TCMainPageCellModel : NSObject<MSCellModel>
+
+@property (nonatomic, strong) TCMainPageParserItem *item;
+@property (nonatomic, strong) NSMutableArray *items;
 
 @end

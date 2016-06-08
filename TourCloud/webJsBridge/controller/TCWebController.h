@@ -11,5 +11,6 @@
 @interface TCWebController : UIViewController
 
 @property (nonatomic, assign) BOOL synchronizeDocumentTitle;//navbar同步页面document的title，default is yes
+@property (nonatomic, strong) NSString *htmlUrl;
 
 @end

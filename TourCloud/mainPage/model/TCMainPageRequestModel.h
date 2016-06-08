@@ -10,7 +10,5 @@
 
 @interface TCMainPageRequestModel : BaseTableModel
 
-- (void)getHeadLine;
-
 @end
 

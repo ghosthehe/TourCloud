@@ -10,4 +10,9 @@
 
 @interface TCHeadlineRequestModel : BaseTableModel
 
+@property (nonatomic, strong) NSArray *headlineItems;
+
+- (void)getHeadlineData;
+
+
 @end

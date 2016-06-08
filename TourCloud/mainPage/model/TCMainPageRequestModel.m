@@ -7,9 +7,8 @@
 //
 
 #import "TCMainPageRequestModel.h"
-#import "NSString+URLEncoding.h"
-#import "MSHTTPSessionManager.h"
-#import "AFHTTPSessionManager.h"
+#import "TCMainPageParserItem.h"
+#import "TCMainPageCellModel.h"
 
 @implementation TCMainPageRequestModel
 
@@ -17,71 +16,17 @@
 {
     if (self = [super init]) {
         
-//        NSString *urlStr = @"http://cloud.tianxiayunyou.com/why-mobile/mobile/webservice";
-//        self.URLString = [urlStr URLEncodedString];
-//        
-//        NSDictionary *dic = @{@"cmd":@"214",
-//                              @"ver":@"1_4",
-//                              @"customerCode":@"lyy",
-//                              @"pageIndex":@"1",
-//                              @"pageSize":@"5"};
-//        
-//        [self.parameter addEntriesFromDictionary:dic];
-//        __weak typeof(self) weakSelf = self;
-//        
-//        self.parser = ^(MSHTTPResponse *response)
-//        {
-//            return [weakSelf itemsFromResponse:response];
-//        };
         
-        [self getHeadLine];
-
+        __weak typeof(self) weakSelf = self;
+        
+        self.parser = ^(MSHTTPResponse *response)
+        {
+            return [weakSelf itemsFromResponse:response];
+        };
+        
     }
     
     return self;
-}
-
-- (void)getHeadLine
-{
-    NSString *urlStr = @"http://cloud.tianxiayunyou.com/why-mobile/mobile/webservice";
-
-    NSDictionary *dic = @{@"cmd":@"214",
-                          @"ver":@"1_4",
-                          @"customerCode":@"lyy",
-                          @"pageIndex":@"1",
-                          @"pageSize":@"5"};
-    
-    
-//    MSHTTPSessionManager *manager = [MSHTTPSessionManager sharedManager];
-    
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager POST:urlStr parameters:dic constructingBodyWithBlock:^(id  _Nonnull formData) {
-        // 拼接data到请求体，这个block的参数是遵守AFMultipartFormData协议的。
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        // 这里可以获取到目前的数据请求的进度
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        // 请求成功，解析数据
-        NSLog(@"%@", responseObject);
-        
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
-        
-        NSLog(@"%@", dic);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        // 请求失败
-        NSLog(@"%@", [error localizedDescription]);
-    }];
-    
-//    [manager POST:[urlStr fixMe_URLEncodedString] parameters:dic headerFields:nil block:^(MSHTTPResponse *response, NSURLSessionTask *task, BOOL success) {
-//        
-//        if (success) {
-//            
-//        }
-//    }];
 }
 
 - (NSArray *)itemsFromResponse:(MSHTTPResponse *)response
@@ -94,19 +39,61 @@
 
 - (NSArray *)parseDataWithComments:(NSArray *)comments
 {
-//    NSArray *items = [EMInfoPageCailianPressItem parseArray:comments];
-//    
-//    NSMutableArray *datas = [[NSMutableArray alloc] initWithCapacity:0];
-//    
-//    for (EMInfoPageCailianPressItem *item in items) {
-//        item.actionDelegate = self.actionDelegate;
-//        
-//        [datas addObject:item];
-//        
-//    }
-    NSArray *items = nil;
+    NSMutableArray *datas = [[NSMutableArray alloc] initWithCapacity:0];
     
-    return items;
+    NSArray *items = [TCMainPageParserItem parseArray:comments];
+    
+    for (TCMainPageParserItem *item in items) {
+        TCMainPageCellModel *cellModel = [[TCMainPageCellModel alloc] init];
+        [cellModel parseItem:item];
+        
+        [datas addObject:cellModel];
+    }
+    
+    return datas;
+}
+
+- (void)defaultDatasource:(NSArray *)datas
+{
+    //datasource
+    MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
+    
+    NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:0];
+    TCMainPageParserItem *item = [[TCMainPageParserItem alloc] init];
+    [items addObject:item];
+    [dataSource addNewSection:@"" withItems:items];
+    
+    [dataSource addNewSection:@"最新活动" withItems:datas];
+    self.dataSource = dataSource;
+    
+}
+
+- (void)pageDownDatasource:(NSArray *)datas
+{
+    //datasource
+    if (datas && datas.count)
+    {
+        [self.dataSource appendItems:datas atSectionTitle:@"最新活动"];
+    }
+    
+}
+
+- (void)pageUpDatasource:(NSArray *)datas
+{
+    if (datas && datas.count) {
+        
+        MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
+        
+        NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:0];
+        TCMainPageParserItem *item = [[TCMainPageParserItem alloc] init];
+        [items addObject:item];
+        [dataSource addNewSection:@"" withItems:items];
+        
+        [dataSource addNewSection:@"最新活动" withItems:datas];
+        self.dataSource = dataSource;
+        
+    }
+    
 }
 
 @end

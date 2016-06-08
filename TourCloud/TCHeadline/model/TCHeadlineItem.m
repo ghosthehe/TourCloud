@@ -6,8 +6,25 @@
 //  Copyright © 2016年 com.pachongshe.pachonglvyou. All rights reserved.
 //
 
-#import "TCHeadlineParaModel.h"
+#import "TCHeadlineItem.h"
+#import "NSObject+Reflect.h"
 
-@implementation TCHeadlineParaModel
+@implementation TCHeadlineItem
+
+- (instancetype)parse:(NSDictionary *)info options:(NSUInteger)options
+{
+    return [self initWithInfos:info];
+}
+
+- (instancetype)initWithInfos:(NSDictionary *)info
+{
+    if (self = [super init]) {
+        
+        [self ms_reflectDataRecursionFromOtherDictionary:info];
+        
+    }
+    
+    return self;
+}
 
 @end

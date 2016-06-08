@@ -3,29 +3,78 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="139" id="KGk-i7-Jjw" customClass="MainPageHotCell">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="235" id="KGk-i7-Jjw" customClass="MainPageHotCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="217"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="21e-ra-M5O">
-                        <rect key="frame" x="10" y="1" width="355" height="122"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="乐游上海1_03" translatesAutoresizingMaskIntoConstraints="NO" id="21e-ra-M5O">
+                        <rect key="frame" x="10" y="5" width="353" height="124"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="124" id="2PX-qe-RoO"/>
+                        </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="热门区域" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8b-FL-8yu">
+                        <rect key="frame" x="44" y="44" width="100" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="NI0-Pi-7ge"/>
+                            <constraint firstAttribute="height" constant="23" id="dI8-f1-e1X"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="行走在上海的大街小巷" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mn0-9S-RkI">
+                        <rect key="frame" x="44" y="69" width="200" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="Psk-4g-OYK"/>
+                            <constraint firstAttribute="height" constant="21" id="Y9e-tI-qco"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Mey-Ym-3cm">
+                        <rect key="frame" x="10" y="133" width="355" height="78"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewLayout key="collectionViewLayout" id="73H-MR-6Hd" customClass="UICollectionViewFlowLayout"/>
+                        <connections>
+                            <outlet property="dataSource" destination="KGk-i7-Jjw" id="JJ6-yR-vzx"/>
+                            <outlet property="delegate" destination="KGk-i7-Jjw" id="fRO-he-ZUO"/>
+                        </connections>
+                    </collectionView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="21e-ra-M5O" secondAttribute="bottom" constant="1" id="AkX-KJ-9S2"/>
-                    <constraint firstItem="21e-ra-M5O" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="F2i-Eh-I75"/>
-                    <constraint firstItem="21e-ra-M5O" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="PbA-fr-aVf"/>
-                    <constraint firstAttribute="trailing" secondItem="21e-ra-M5O" secondAttribute="trailing" constant="10" id="xau-4o-gmg"/>
+                    <constraint firstItem="mn0-9S-RkI" firstAttribute="top" secondItem="d8b-FL-8yu" secondAttribute="bottom" constant="2" id="8Jl-dh-eTN"/>
+                    <constraint firstAttribute="bottom" secondItem="Mey-Ym-3cm" secondAttribute="bottom" constant="5" id="9TC-ZD-wE2"/>
+                    <constraint firstItem="21e-ra-M5O" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="AIr-W0-r5h"/>
+                    <constraint firstItem="Mey-Ym-3cm" firstAttribute="top" secondItem="21e-ra-M5O" secondAttribute="bottom" constant="4" id="Bjf-pt-1iR"/>
+                    <constraint firstAttribute="trailing" secondItem="Mey-Ym-3cm" secondAttribute="trailing" constant="10" id="Frb-Q1-Xt4"/>
+                    <constraint firstAttribute="trailing" secondItem="21e-ra-M5O" secondAttribute="trailing" constant="12" id="IFC-e9-hh7"/>
+                    <constraint firstItem="d8b-FL-8yu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="36" id="MX1-GP-5xf"/>
+                    <constraint firstItem="Mey-Ym-3cm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="qNB-tK-SyN"/>
+                    <constraint firstItem="21e-ra-M5O" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="rQN-Uk-yFf"/>
+                    <constraint firstItem="mn0-9S-RkI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="36" id="u3v-bc-qdf"/>
+                    <constraint firstItem="d8b-FL-8yu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="36" id="v6w-f3-scO"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="289" y="269.5"/>
+            <connections>
+                <outlet property="hotImageView" destination="21e-ra-M5O" id="lLS-qy-csg"/>
+                <outlet property="hotSubTitleLabel" destination="mn0-9S-RkI" id="dm5-hM-An3"/>
+                <outlet property="hotTitleLabel" destination="d8b-FL-8yu" id="XEQ-x7-1bN"/>
+                <outlet property="typesCollection" destination="Mey-Ym-3cm" id="n1h-Lf-KFi"/>
+            </connections>
+            <point key="canvasLocation" x="396.5" y="186.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="乐游上海1_03" width="710" height="160"/>
+    </resources>
 </document>

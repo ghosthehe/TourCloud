@@ -7,6 +7,7 @@
 //
 
 #import "BaseTableModel.h"
+#import "TCUrlDefineUntil.h"
 
 @implementation BaseTableModel
 
@@ -15,9 +16,10 @@
     self = [super init];
     if (self) {
         self.parameter = [NSMutableDictionary dictionary];
-        self.pageupParameter   = [NSMutableDictionary dictionary];
-        self.pagedownParameter = [NSMutableDictionary dictionary];
+//        self.pageupParameter   = [NSMutableDictionary dictionary];
+//        self.pagedownParameter = [NSMutableDictionary dictionary];
         
+        self.datas = [NSMutableDictionary dictionary];
         self.title = @"";
         self.items = [NSMutableArray array];
         self.canPageDown = NO;
@@ -25,33 +27,33 @@
     return self;
 }
 
-- (NSMutableDictionary *)parameterForRequestType:(EMTableRequestType)requestType
-{
-    NSMutableDictionary *param = nil;
-    switch (requestType) {
-        case EMTableRequestTypeDefault:
-            param = self.parameter;
-            break;
-        case EMTableRequestTypePageDown:
-            param = self.pagedownParameter;
-            break;
-        case EMTableRequestTypePageUp:
-            param = self.pageupParameter;
-            break;
-        default:
-            break;
-    }
-    
-    return param;
-}
+//- (NSMutableDictionary *)parameterForRequestType:(EMTableRequestType)requestType
+//{
+//    NSMutableDictionary *param = nil;
+//    switch (requestType) {
+//        case EMTableRequestTypeDefault:
+//            param = self.parameter;
+//            break;
+//        case EMTableRequestTypePageDown:
+//            param = self.pagedownParameter;
+//            break;
+//        case EMTableRequestTypePageUp:
+//            param = self.pageupParameter;
+//            break;
+//        default:
+//            break;
+//    }
+//    
+//    return param;
+//}
 
 - (NSString *)urlStringForRequestType:(EMTableRequestType)requestType
 {
     NSString *urlString = self.URLString;
-    if (requestType == EMTableRequestTypePageDown && self.pageDownUrlString)
-    {
-        urlString = self.pageDownUrlString;
-    }
+//    if (requestType == EMTableRequestTypePageDown && self.pageDownUrlString)
+//    {
+//        urlString = self.pageDownUrlString;
+//    }
     return urlString;
 }
 
@@ -110,7 +112,7 @@
 //        }];
     [self POST:urlString parameters:self.parameter headerFields:nil block:^(MSHTTPResponse *response, NSURLSessionTask *task, BOOL success) {
         
-        if (success)
+        if (response.status == MSHTTPResponseStatusOK)
         {
             NSArray *items = parser(response);
             //兼容某些特殊包可能在parser中改变状态
@@ -156,11 +158,11 @@
     if ([response.originData isKindOfClass:[NSDictionary class]])
     {
         //parameter
-        self.pageDownUrlString = response.originData[@"nextPage"];
-        self.canPageDown = [response.originData[@"hasNextPage"] boolValue];
+        NSArray *datas = response.originData[@"data"];
+        if (datas.count >= 4) {
+            self.canPageDown = YES;
+        }
         
-        self.pagedownParameter[@"lastid"] = response.originData[@"lastid"];
-        self.pageupParameter[@"topid"] = response.originData[@"topid"];
     }
 }
 
@@ -169,9 +171,14 @@
     if ([response.originData isKindOfClass:[NSDictionary class]])
     {
         //parameter
-        self.pageDownUrlString = response.originData[@"nextPage"];
-        self.canPageDown = [response.originData[@"hasNextPage"] boolValue];
-        self.pagedownParameter[@"lastid"] = response.originData[@"lastid"];
+//        self.pageDownUrlString = response.originData[@"nextPage"];
+//        self.canPageDown = [response.originData[@"hasNextPage"] boolValue];
+//        self.pagedownParameter[@"lastid"] = response.originData[@"lastid"];
+        
+        NSArray *datas = response.originData[@"data"];
+        if (datas.count < 4) {
+            self.canPageDown = NO;
+        }
     }
 }
 
@@ -180,7 +187,12 @@
     if ([response.originData isKindOfClass:[NSDictionary class]])
     {
         //parameter
-        self.pageupParameter[@"topid"] = response.originData[@"topid"];
+//        self.pageupParameter[@"topid"] = response.originData[@"topid"];
+        
+        NSArray *datas = response.originData[@"data"];
+        if (datas.count >= 4) {
+            self.canPageDown = YES;
+        }
     }
 }
 
@@ -192,6 +204,7 @@
     MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
     [dataSource addNewSection:self.title withItems:self.items];
     self.dataSource = dataSource;
+    
 }
 
 - (void)pageDownDatasource:(NSArray *)datas
@@ -204,26 +217,37 @@
         [self.dataSource removeSection:index];
         [self.dataSource addNewSection:self.title withItems:self.items];
     }
+    
 }
 
 - (void)pageUpDatasource:(NSArray *)datas
 {
     //datasource
-    if(self.dataSource)
-    {
-        [self.items insertObjects:datas atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, datas.count)]];
-        NSInteger index = [self.dataSource.sections indexOfObject:self.title];
-        [self.dataSource removeSection:index];
-        [self.dataSource addNewSection:self.title withItems:self.items];
-    }
-    else
-    {
+//    if(self.dataSource)
+//    {
+//        [self.items insertObjects:datas atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, datas.count)]];
+//        NSInteger index = [self.dataSource.sections indexOfObject:self.title];
+//        [self.dataSource removeSection:index];
+//        [self.dataSource addNewSection:self.title withItems:self.items];
+//    }
+//    else
+//    {
+//        [[self items] removeAllObjects];
+//        [self.items addObjectsFromArray:datas];
+//        MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
+//        [dataSource addNewSection:self.title withItems:self.items];
+//        self.dataSource = dataSource;
+//    }
+    if (datas && datas.count) {
+        
         [[self items] removeAllObjects];
         [self.items addObjectsFromArray:datas];
         MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
         [dataSource addNewSection:self.title withItems:self.items];
         self.dataSource = dataSource;
+
     }
+    
 }
 
 

@@ -86,12 +86,12 @@
 {
     MSHTTPSessionManager *manager = [MSHTTPSessionManager sharedManager];
     
-    NSMutableDictionary *newParameters = [param mutableCopy];
-    if (self.defaultParameters) {
-        [newParameters addEntriesFromDictionary:self.defaultParameters];
-    }
+//    NSMutableDictionary *newParameters = [param mutableCopy];
+//    if (self.defaultParameters) {
+//        [newParameters addEntriesFromDictionary:self.defaultParameters];
+//    }
     
-    NSURLSessionTask *task = [manager POST:URLString parameters:newParameters headerFields:headers block:^(MSHTTPResponse *response, NSURLSessionTask *task, BOOL success) {
+    NSURLSessionTask *task = [manager POST:URLString parameters:param headerFields:headers block:^(MSHTTPResponse *response, NSURLSessionTask *task, BOOL success) {
         [self parseHTTPResponse:response URL:URLString];
         block(response, task, success);
         [self.tasks removeObject:task];

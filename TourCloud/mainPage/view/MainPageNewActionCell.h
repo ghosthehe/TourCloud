@@ -11,5 +11,8 @@
 
 @interface MainPageNewActionCell : UITableViewCell<MSCellUpdating>
 
+@property (weak, nonatomic) IBOutlet UIImageView *titleImageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @end

@@ -12,11 +12,14 @@
 #import "Masonry.h"
 
 
-@interface TCMapController ()<MAMapViewDelegate>
+@interface TCMapController ()<MAMapViewDelegate,MAOverlay>
 
 @end
 
 @implementation TCMapController
+
+@synthesize coordinate;
+@synthesize boundingMapRect;
 
 - (instancetype)init
 {
@@ -37,7 +40,7 @@
     
     [self initAnnotation];
     
-
+    
 }
 
 #pragma mark --初始化地图
@@ -216,7 +219,32 @@
         accuracyCircleRenderer.fillColor    = [UIColor colorWithRed:1 green:0 blue:0 alpha:.3];
         
         return accuracyCircleRenderer;
+    }else if ([overlay isKindOfClass:[MAPolyline class]])
+    {
+        MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:overlay];
+        
+//        if (overlay == self.overlaysAboveLabels[OverlayViewControllerOverlayTypeTexturePolyline])
+//        {
+//            polylineRenderer.lineWidth    = 8.f;
+//            [polylineRenderer loadStrokeTextureImage:[UIImage imageNamed:@"arrowTexture"]];
+//            
+//        }
+//        else if(overlay == self.overlaysAboveLabels[OverlayViewControllerOverlayTypeArrowPolyline])
+//        {
+//            polylineRenderer.lineWidth    = 20.f;
+//            polylineRenderer.lineCapType  = kMALineCapArrow;
+//        }
+//        else
+//        {
+//            polylineRenderer.lineWidth    = 8.f;
+//            polylineRenderer.strokeColor  = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.6];
+//            polylineRenderer.lineJoinType = kMALineJoinRound;
+//            polylineRenderer.lineCapType  = kMALineCapRound;
+//        }
+        
+        return polylineRenderer;
     }
+
     
     return nil;
 }
@@ -259,22 +287,6 @@
     
 }
 
-////覆盖物
-//- (MAOverlayView *)mapView:(MAMapView *)mapView viewForOverlay:(id <MAOverlay>)overlay
-//{
-//    if ([overlay isKindOfClass:[MAPolyline class]])
-//    {
-//        MAPolylineView *polylineView = [[MAPolylineView alloc] initWithPolyline:overlay];
-//        
-//        polylineView.lineWidth = 10.f;
-//        polylineView.strokeColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.6];
-//        polylineView.lineJoinType = kMALineJoinRound;//连接类型
-//        polylineView.lineCapType = kMALineCapRound;//端点类型
-//        
-//        return polylineView;
-//    }
-//    return nil;
-//}
 
 - (void)didReceiveMemoryWarning
 {

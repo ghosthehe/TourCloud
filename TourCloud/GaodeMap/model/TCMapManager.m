@@ -11,15 +11,15 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapServices.h>
 
+static TCMapManager *mapManager = nil;
+
 @implementation TCMapManager
 
 + (TCMapManager *)shareMapManger
 {
-    static TCMapManager *mapManager = nil;
-    dispatch_once_t mapOnce;
-    dispatch_once(&mapOnce, ^{
-        mapManager = [[self alloc] init];
-    });
+    if (!mapManager) {
+        mapManager = [[TCMapManager alloc] init];
+    }
     
     return mapManager;
 }
