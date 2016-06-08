@@ -113,6 +113,7 @@
     [self.slideBtns enumerateObjectsUsingBlock:^(TCHeadlineItem *item, NSUInteger idx, BOOL *stop) {
         UILabel *label = [[UILabel alloc] init];
         label.text = item.newstitle;
+        label.font = [UIFont systemFontOfSize:15];
         label.frame = CGRectMake( 0, (idx+1)  * self.scrollView.frame.size.height, 200, self.scrollView.frame.size.height);
         [self.scrollView addSubview:label];
 

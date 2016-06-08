@@ -15,11 +15,14 @@
 #import "RDVTabBarController.h"
 #import "TCHeadlineRequestModel.h"
 #import "TCUrlDefineUntil.h"
+#import "TCSectionView.h"
+#import "TCMainPageCellModel.h"
 
 @interface TCMainPageViewController ()<MainPageCycleViewDelegate>
 {
     MainPageCycleView *_mainPageCycle;
-    TCHeadlineRequestModel *_headlindeRequestModel;
+    NSInteger _currentPage;
+
 }
 
 @end
@@ -29,6 +32,11 @@
 - (void)dealloc
 {
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"heanlineData" object:nil];
 }
 
 - (instancetype)init
@@ -42,9 +50,34 @@
 
 - (void)loadModel
 {
+    _currentPage = 1;
+    
     if (_model == nil) {
         _model = [[TCMainPageRequestModel alloc] init];
+        
+        _model.URLString = Url;
+        
+        self.model.datas[pageSize] = @(4);
+        self.model.parameter[cmd] = @"313";
+        self.model.parameter[ver] = @"1_4";
     }
+}
+
+- (void)headerRefreshing
+{
+    _currentPage = 1;
+
+    self.model.datas[pageIndex] = @(_currentPage);
+    self.model.parameter[@"data"] = self.model.datas;
+    [super headerRefreshing];
+}
+
+- (void)footerRefreshing
+{
+    _currentPage += 1;
+    self.model.datas[pageIndex] = @(_currentPage);
+    self.model.parameter[@"data"] = self.model.datas;
+    [super footerRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -56,9 +89,9 @@
 
 - (void)headLineCycleRequest
 {
-    _headlindeRequestModel = [[TCHeadlineRequestModel alloc] init];
+    TCHeadlineRequestModel *headlindeRequestModel = [[TCHeadlineRequestModel alloc] init];
     
-    [_headlindeRequestModel getHeadlineData];
+    [headlindeRequestModel getHeadlineData];
     
 }
 
@@ -100,9 +133,59 @@
     
 }
 
+#pragma mark --- tableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.dataSource) {
+        id<MSCellModel> item = [self.dataSource itemAtIndexPath:indexPath];
+        if ([item isKindOfClass:[TCMainPageCellModel class]]) {
+            
+            TCMainPageCellModel *cellModel = (TCMainPageCellModel *)item;
+//            TCWebController *webController = [[TCWebController alloc] init];
+//            webController.htmlUrl = @"";
+//            [self.navigationController pushViewController:webController animated:YES];
+        }
+    }
+
+    
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *title = [[self.dataSource sections] objectAtIndex:section];
+    if ([title length]>0) {
+    
+        TCSectionView *sectionView = [[TCSectionView alloc] initWithFrame:CGRectMake(0, 0, MSScreenWidth(), 38)];
+        sectionView.backgroundColor = [UIColor whiteColor];
+        sectionView.titleLabel.text = title;
+        
+        return sectionView;
+    }else{
+        
+        return nil;
+        
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    NSString *title = [[self.dataSource sections] objectAtIndex:section];
+    if ([title length]>0) {
+        return 38;
+    }
+    
+    return 0;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 1;
+    if (section == 0) {
+        return 5;
+    }else{
+        return 0;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

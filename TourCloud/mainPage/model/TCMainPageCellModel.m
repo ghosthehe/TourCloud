@@ -7,6 +7,7 @@
 //
 
 #import "TCMainPageCellModel.h"
+#import "MainPageNewActionCell.h"
 
 @implementation TCMainPageCellModel
 @synthesize height;
@@ -14,19 +15,15 @@
 @synthesize reuseIdentify;
 @synthesize isRegisterByClass;
 
-- (instancetype)init
+- (void)parseItem:(id)item
 {
-    if (self = [super init]) {
-        
-        
-//        self.height = [self calculateHeight];
-//        self.reuseIdentify     = @"EMInfoPageCailianPressCell";
-//        self.Class = [EMInfoPageCailianPressCell class];
-//        self.isRegisterByClass = NO;
-
+    _item = item;
     
-    }
+    self.height = 170;
+    self.Class = [MainPageNewActionCell class];
+    self.isRegisterByClass = NO;
+    self.reuseIdentify = @"MainPageNewActionCell";
     
-    return self;
 }
+
 @end

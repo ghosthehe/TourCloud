@@ -20,6 +20,30 @@
 - (instancetype)parse:(NSDictionary *)info options:(NSUInteger)options
 {
     
+    return [self initWithInfos:info];
+}
+
+- (instancetype)initWithInfos:(NSDictionary *)info
+{
+    if (self = [super init]) {
+        
+        [self ms_reflectDataRecursionFromOtherDictionary:info];
+        
+    }
+    
+    return self;
+}
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+        self.Class = [MainPageHotCell class];
+        self.height = 217;
+        self.reuseIdentify = @"MainPageHotCell";
+        self.isRegisterByClass = NO;
+    }
+    
     return self;
 }
 

@@ -10,5 +10,9 @@
 #import "MSCellUpdating.h"
 
 @interface MainPageHotCell : UITableViewCell<MSCellUpdating>
+@property (weak, nonatomic) IBOutlet UIImageView *hotImageView;
+@property (weak, nonatomic) IBOutlet UILabel *hotTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hotSubTitleLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *typesCollection;
 
 @end

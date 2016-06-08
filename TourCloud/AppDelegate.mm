@@ -29,7 +29,6 @@
     self.window = [[TCWindow alloc] initWithFrame:MSScreenBounds()];
     
 #pragma mark 注册appKey
-    
     [TCShareManager shareManager];    //分享
     [TCClick shareClick];                           //行为统计
     [[TCMessageManager shareMessageManager] getOptions:launchOptions];    //推送
@@ -53,6 +52,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
     return  [[TCPayManager sharePayManager] handleOpenUrl:url];;
 }
 

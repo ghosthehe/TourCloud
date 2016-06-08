@@ -13,7 +13,6 @@
 #import "TCWebController.h"
 #import "TCMapMainController.h"
 #import "RDVTabBarItem.h"
-#import "TCRefreshController.h"
 #import "TCMainPageViewController.h"
 
 @implementation TCWindow
@@ -42,11 +41,9 @@
     UINavigationController *webNavController = [[UINavigationController alloc] initWithRootViewController:webController];
     TCMapMainController *mapController = [[TCMapMainController alloc] init];
     UINavigationController *mapNavController = [[UINavigationController alloc] initWithRootViewController:mapController];
-    TCRefreshController *refreshController = [[TCRefreshController alloc] init];
-    UINavigationController *refreshNavController = [[UINavigationController alloc] initWithRootViewController:refreshController];
     
     RDVTabBarController *rdvController = [[RDVTabBarController alloc] init];
-    [rdvController setViewControllers:@[mainNavController,shareNavViewController,webNavController,mapNavController,payNavController,refreshNavController]];
+    [rdvController setViewControllers:@[mainNavController,shareNavViewController,webNavController,mapNavController,payNavController]];
     [self customizeTabBarForController:rdvController];
     self.rootViewController = rdvController;
 }
