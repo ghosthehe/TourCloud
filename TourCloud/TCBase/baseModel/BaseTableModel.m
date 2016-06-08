@@ -159,7 +159,7 @@
     {
         //parameter
         NSArray *datas = response.originData[@"data"];
-        if (datas.count >= 4) {
+        if (datas.count >= 5) {
             self.canPageDown = YES;
         }
         
@@ -176,7 +176,7 @@
 //        self.pagedownParameter[@"lastid"] = response.originData[@"lastid"];
         
         NSArray *datas = response.originData[@"data"];
-        if (datas.count < 4) {
+        if (datas.count < 5) {
             self.canPageDown = NO;
         }
     }
@@ -190,7 +190,7 @@
 //        self.pageupParameter[@"topid"] = response.originData[@"topid"];
         
         NSArray *datas = response.originData[@"data"];
-        if (datas.count >= 4) {
+        if (datas.count >= 5) {
             self.canPageDown = YES;
         }
     }

@@ -16,6 +16,7 @@
 {
     if (self = [super init]) {
         
+        [self mainPageHotAndTypes];
         
         __weak typeof(self) weakSelf = self;
         
@@ -39,61 +40,25 @@
 
 - (NSArray *)parseDataWithComments:(NSArray *)comments
 {
-    NSMutableArray *datas = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:0];
+    TCMainPageParserItem *item = [[TCMainPageParserItem alloc] init];
+    [items addObject:item];
     
-    NSArray *items = [TCMainPageParserItem parseArray:comments];
-    
-    for (TCMainPageParserItem *item in items) {
-        TCMainPageCellModel *cellModel = [[TCMainPageCellModel alloc] init];
-        [cellModel parseItem:item];
-        
-        [datas addObject:cellModel];
-    }
-    
-    return datas;
+    return items;
 }
 
-- (void)defaultDatasource:(NSArray *)datas
+- (void)mainPageHotAndTypes
 {
-    //datasource
-    MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
+    MSMutableDataSource *ds = [[MSMutableDataSource alloc] init];
     
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:0];
     TCMainPageParserItem *item = [[TCMainPageParserItem alloc] init];
     [items addObject:item];
-    [dataSource addNewSection:@"" withItems:items];
     
-    [dataSource addNewSection:@"最新活动" withItems:datas];
-    self.dataSource = dataSource;
+    [ds addNewSection:@"" withItems:items];
     
-}
+    self.dataSource = ds;
 
-- (void)pageDownDatasource:(NSArray *)datas
-{
-    //datasource
-    if (datas && datas.count)
-    {
-        [self.dataSource appendItems:datas atSectionTitle:@"最新活动"];
-    }
-    
-}
-
-- (void)pageUpDatasource:(NSArray *)datas
-{
-    if (datas && datas.count) {
-        
-        MSMutableDataSource *dataSource = [[MSMutableDataSource alloc] init];
-        
-        NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:0];
-        TCMainPageParserItem *item = [[TCMainPageParserItem alloc] init];
-        [items addObject:item];
-        [dataSource addNewSection:@"" withItems:items];
-        
-        [dataSource addNewSection:@"最新活动" withItems:datas];
-        self.dataSource = dataSource;
-        
-    }
-    
 }
 
 @end

@@ -317,6 +317,7 @@
 		E82D71001CFEBC3400D7D9D8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E82D70FF1CFEBC3400D7D9D8 /* QuartzCore.framework */; };
 		E82D715F1CFEBFC700D7D9D8 /* BaseRefreshTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82D715A1CFEBFC700D7D9D8 /* BaseRefreshTableController.m */; };
 		E82D71601CFEBFC700D7D9D8 /* BaseTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E82D715D1CFEBFC700D7D9D8 /* BaseTableModel.m */; };
+		E82D71631CFEC01E00D7D9D8 /* TCRefreshController.m in Sources */ = {isa = PBXBuildFile; fileRef = E82D71621CFEC01E00D7D9D8 /* TCRefreshController.m */; };
 		E82D71671CFEC1FC00D7D9D8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E82D71661CFEC1FC00D7D9D8 /* Info.plist */; };
 		E835D0121CFFD73B00225440 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E835D0111CFFD73B00225440 /* OpenGLES.framework */; };
 		E835D0141CFFD74300225440 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E835D0131CFFD74300225440 /* CoreLocation.framework */; };
@@ -352,9 +353,6 @@
 		E8497E961D01643E008394BC /* EMCycleItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E8497E8E1D01643E008394BC /* EMCycleItem.m */; };
 		E8497E971D01643E008394BC /* EMCycleScrollAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8497E911D01643E008394BC /* EMCycleScrollAdView.m */; };
 		E8497E981D01643E008394BC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = E8497E921D01643E008394BC /* README.md */; };
-		E8558E7D1D0D07900053DB59 /* TCMainPageTypeCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E8558E7B1D0D07900053DB59 /* TCMainPageTypeCollectionCell.m */; };
-		E8558E7E1D0D07900053DB59 /* TCMainPageTypeCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8558E7C1D0D07900053DB59 /* TCMainPageTypeCollectionCell.xib */; };
-		E8558E871D0D2B3E0053DB59 /* TCSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8558E861D0D2B3E0053DB59 /* TCSectionView.m */; };
 		E8F20CDE1D06AD1300661A22 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F20CBD1D06AD1300661A22 /* AFHTTPSessionManager.m */; };
 		E8F20CDF1D06AD1300661A22 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F20CC01D06AD1300661A22 /* AFNetworkReachabilityManager.m */; };
 		E8F20CE01D06AD1300661A22 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = E8F20CC21D06AD1300661A22 /* AFSecurityPolicy.m */; };
@@ -1093,6 +1091,8 @@
 		E82D715C1CFEBFC700D7D9D8 /* BaseTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableModel.h; sourceTree = "<group>"; };
 		E82D715D1CFEBFC700D7D9D8 /* BaseTableModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableModel.m; sourceTree = "<group>"; };
 		E82D715E1CFEBFC700D7D9D8 /* CellEventHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellEventHandle.h; sourceTree = "<group>"; };
+		E82D71611CFEC01E00D7D9D8 /* TCRefreshController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCRefreshController.h; path = ../../../../Documents/TCRefreshController.h; sourceTree = "<group>"; };
+		E82D71621CFEC01E00D7D9D8 /* TCRefreshController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCRefreshController.m; path = ../../../../Documents/TCRefreshController.m; sourceTree = "<group>"; };
 		E82D71661CFEC1FC00D7D9D8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E835D0111CFFD73B00225440 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		E835D0131CFFD74300225440 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1146,11 +1146,6 @@
 		E8497E901D01643E008394BC /* EMCycleScrollAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMCycleScrollAdView.h; sourceTree = "<group>"; };
 		E8497E911D01643E008394BC /* EMCycleScrollAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMCycleScrollAdView.m; sourceTree = "<group>"; };
 		E8497E921D01643E008394BC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		E8558E7A1D0D07900053DB59 /* TCMainPageTypeCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMainPageTypeCollectionCell.h; sourceTree = "<group>"; };
-		E8558E7B1D0D07900053DB59 /* TCMainPageTypeCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMainPageTypeCollectionCell.m; sourceTree = "<group>"; };
-		E8558E7C1D0D07900053DB59 /* TCMainPageTypeCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TCMainPageTypeCollectionCell.xib; sourceTree = "<group>"; };
-		E8558E851D0D2B3E0053DB59 /* TCSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCSectionView.h; sourceTree = "<group>"; };
-		E8558E861D0D2B3E0053DB59 /* TCSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCSectionView.m; sourceTree = "<group>"; };
 		E8F20CBC1D06AD1300661A22 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		E8F20CBD1D06AD1300661A22 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		E8F20CBE1D06AD1300661A22 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
@@ -1293,6 +1288,7 @@
 				E82D6DBE1CFEB18400D7D9D8 /* define */,
 				E83945E21D07B1C300A31CD0 /* TCHeadline */,
 				E8497E991D016912008394BC /* mainPage */,
+				E82D71571CFEBFC700D7D9D8 /* TCBase */,
 				E82D70151CFEB66900D7D9D8 /* CoreData */,
 				E82D6FFB1CFEB51100D7D9D8 /* Pay */,
 				E82D6FDA1CFEB41D00D7D9D8 /* 友盟 */,
@@ -1301,7 +1297,6 @@
 				E82D6DFB1CFEB19900D7D9D8 /* resource */,
 				E82D6DC61CFEB19400D7D9D8 /* Mob */,
 				E82D6DBF1CFEB18B00D7D9D8 /* GaodeMap */,
-				E82D71571CFEBFC700D7D9D8 /* TCBase */,
 				E82D6BF81CFEB16A00D7D9D8 /* EMSpeed */,
 				E82D6FD61CFEB30B00D7D9D8 /* TCWindow */,
 				E82D6BD11CFEB12000D7D9D8 /* Assets.xcassets */,
@@ -3061,6 +3056,8 @@
 		E82D71571CFEBFC700D7D9D8 /* TCBase */ = {
 			isa = PBXGroup;
 			children = (
+				E82D71611CFEC01E00D7D9D8 /* TCRefreshController.h */,
+				E82D71621CFEC01E00D7D9D8 /* TCRefreshController.m */,
 				E82D71581CFEBFC700D7D9D8 /* baseController */,
 				E82D715B1CFEBFC700D7D9D8 /* baseModel */,
 			);
@@ -3227,45 +3224,16 @@
 		E8497E9C1D016912008394BC /* view */ = {
 			isa = PBXGroup;
 			children = (
-				E8558E841D0D2A400053DB59 /* newAction */,
-				E8558E831D0D2A0C0053DB59 /* hotregion */,
-				E8558E821D0D29B30053DB59 /* headLine */,
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
-		E8558E821D0D29B30053DB59 /* headLine */ = {
-			isa = PBXGroup;
-			children = (
 				E83C38FD1D050F9800D3BEDD /* MainPageCycleView.h */,
 				E83C38FE1D050F9800D3BEDD /* MainPageCycleView.m */,
-			);
-			name = headLine;
-			sourceTree = "<group>";
-		};
-		E8558E831D0D2A0C0053DB59 /* hotregion */ = {
-			isa = PBXGroup;
-			children = (
 				E83C39061D054A5A00D3BEDD /* MainPageHotCell.h */,
 				E83C39071D054A5A00D3BEDD /* MainPageHotCell.m */,
 				E83C39081D054A5A00D3BEDD /* MainPageHotCell.xib */,
-				E8558E7A1D0D07900053DB59 /* TCMainPageTypeCollectionCell.h */,
-				E8558E7B1D0D07900053DB59 /* TCMainPageTypeCollectionCell.m */,
-				E8558E7C1D0D07900053DB59 /* TCMainPageTypeCollectionCell.xib */,
-			);
-			name = hotregion;
-			sourceTree = "<group>";
-		};
-		E8558E841D0D2A400053DB59 /* newAction */ = {
-			isa = PBXGroup;
-			children = (
 				E83C39101D054ABC00D3BEDD /* MainPageNewActionCell.h */,
 				E83C39111D054ABC00D3BEDD /* MainPageNewActionCell.m */,
 				E83C39121D054ABC00D3BEDD /* MainPageNewActionCell.xib */,
-				E8558E851D0D2B3E0053DB59 /* TCSectionView.h */,
-				E8558E861D0D2B3E0053DB59 /* TCSectionView.m */,
 			);
-			name = newAction;
+			path = view;
 			sourceTree = "<group>";
 		};
 		E8F20CBA1D06AD1300661A22 /* AFNetworking */ = {
@@ -3459,7 +3427,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8558E7E1D0D07900053DB59 /* TCMainPageTypeCollectionCell.xib in Resources */,
 				E82D6DF31CFEB19400D7D9D8 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				E82D6DA41CFEB16B00D7D9D8 /* szfx.png in Resources */,
 				E82D6F4F1CFEB19A00D7D9D8 /* LICENSE in Resources */,
@@ -3557,6 +3524,7 @@
 				E82D6DB41CFEB16B00D7D9D8 /* MCSegmentedControl.m in Sources */,
 				E82D6F731CFEB19A00D7D9D8 /* SDImageCache.m in Sources */,
 				E82D6F7C1CFEB19A00D7D9D8 /* UIImage+MultiFormat.m in Sources */,
+				E82D71631CFEC01E00D7D9D8 /* TCRefreshController.m in Sources */,
 				E82D6D9A1CFEB16B00D7D9D8 /* MSTableViewController.m in Sources */,
 				E82D6FD91CFEB30B00D7D9D8 /* TCWindow.m in Sources */,
 				E82D6D461CFEB16B00D7D9D8 /* NSString+URLEncoding.m in Sources */,
@@ -3625,7 +3593,6 @@
 				E82D6D631CFEB16B00D7D9D8 /* MSCoreSDKAvailability.m in Sources */,
 				E82D6D471CFEB16B00D7D9D8 /* NSString+URLHelper.m in Sources */,
 				E82D6F6A1CFEB19A00D7D9D8 /* NIFormCellCatalog.m in Sources */,
-				E8558E871D0D2B3E0053DB59 /* TCSectionView.m in Sources */,
 				E82D6D6A1CFEB16B00D7D9D8 /* UINavigationItem+EMBarButtonItem.m in Sources */,
 				E82D6DB21CFEB16B00D7D9D8 /* MSRefreshTableHeaderView.m in Sources */,
 				E82D6F771CFEB19A00D7D9D8 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -3654,7 +3621,6 @@
 				E82D6F531CFEB19A00D7D9D8 /* NIActions.m in Sources */,
 				E82D6BC41CFEB12000D7D9D8 /* main.m in Sources */,
 				E82D6D881CFEB16B00D7D9D8 /* MSActivityIndicatorTextModel.m in Sources */,
-				E8558E7D1D0D07900053DB59 /* TCMainPageTypeCollectionCell.m in Sources */,
 				E82D6D6C1CFEB16B00D7D9D8 /* UITableView+EmptyBackground.m in Sources */,
 				E82D6F221CFEB19A00D7D9D8 /* README.md in Sources */,
 				E83945E81D07B1FE00A31CD0 /* TCHeadlineController.m in Sources */,

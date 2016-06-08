@@ -47,4 +47,17 @@
     return self;
 }
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+        self.Class = [MainPageHotCell class];
+        self.height = 217;
+        self.reuseIdentify = @"MainPageHotCell";
+        self.isRegisterByClass = NO;
+    }
+    
+    return self;
+}
+
 @end

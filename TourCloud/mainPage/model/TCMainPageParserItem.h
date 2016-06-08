@@ -10,13 +10,5 @@
 #import "MSCellModel.h"
 @interface TCMainPageParserItem : MSParseableObject<MSCellModel>
 
-@property (nonatomic, strong) NSString *enddatetime;
-@property (nonatomic, strong) NSString *firstpic;
-@property (nonatomic, assign) NSInteger Id;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *price;
-@property (nonatomic, strong) NSString *startdatetime;
-@property (nonatomic, strong) NSString *title;
-
 
 @end
