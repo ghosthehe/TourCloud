@@ -24,11 +24,12 @@ typedef NSArray *(^EMTableRequestModelParser)(MSHTTPResponse *response);
 @interface BaseTableModel : MSHTTPRequestModel<TableViewCellEventHandler>
 
 @property (nonatomic, strong) NSString *URLString;
-@property (nonatomic, strong) NSString *pageDownUrlString;
+//@property (nonatomic, strong) NSString *pageDownUrlString;
 
-@property (nonatomic, strong) NSMutableDictionary *pageupParameter; //上翻页参数
-@property (nonatomic, strong) NSMutableDictionary *pagedownParameter; //下翻页参数
+//@property (nonatomic, strong) NSMutableDictionary *pageupParameter; //上翻页参数
+//@property (nonatomic, strong) NSMutableDictionary *pagedownParameter; //下翻页参数
 @property (nonatomic, strong) NSMutableDictionary *parameter; //参数
+@property (nonatomic, strong) NSMutableDictionary *datas;
 
 @property (nonatomic, assign) BOOL canPageDown;//当前是否可以翻页
 
@@ -77,8 +78,8 @@ typedef NSArray *(^EMTableRequestModelParser)(MSHTTPResponse *response);
 - (void)pageDownDatasource:(NSArray *)datas;
 - (void)pageUpDatasource:(NSArray *)datas;
 
-- (NSMutableDictionary *)parameterForRequestType:(EMTableRequestType)requestType;
-- (NSString *)urlStringForRequestType:(EMTableRequestType)requestType;
+//- (NSMutableDictionary *)parameterForRequestType:(EMTableRequestType)requestType;
+//- (NSString *)urlStringForRequestType:(EMTableRequestType)requestType;
 
 
 @end

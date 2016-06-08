@@ -10,15 +10,26 @@
 #import "MainPageCycleView.h"
 #import "MSUIKitCore.h"
 #import "TCMainPageRequestModel.h"
+#import "TCHeadlineController.h"
+#import "TCHeadlineController.h"
+#import "RDVTabBarController.h"
+#import "TCHeadlineRequestModel.h"
+#import "TCUrlDefineUntil.h"
 
-@interface TCMainPageViewController ()
+@interface TCMainPageViewController ()<MainPageCycleViewDelegate>
 {
     MainPageCycleView *_mainPageCycle;
+    TCHeadlineRequestModel *_headlindeRequestModel;
 }
 
 @end
 
 @implementation TCMainPageViewController
+
+- (void)dealloc
+{
+    
+}
 
 - (instancetype)init
 {
@@ -36,16 +47,56 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.rdv_tabBarController setTabBarHidden:NO];
+    
+}
+
+- (void)headLineCycleRequest
+{
+    _headlindeRequestModel = [[TCHeadlineRequestModel alloc] init];
+    
+    [_headlindeRequestModel getHeadlineData];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _mainPageCycle = [[MainPageCycleView alloc] initWithFrame:CGRectMake(0, 0, MSScreenWidth(), 44)];
-    
-    [self.view addSubview:_mainPageCycle];
-    
+    [self headLineCycleRequest];
+
     _tableView.frame = CGRectMake(0, 44, MSScreenWidth(), MSScreenHeight() - 44);
     
+    self.emptyView.frame = _tableView.frame;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getHeadlineData:) name:@"heanlineData" object:nil];
+    
+    [self reloadPages:self.model.dataSource];
+}
+
+- (void)getHeadlineData:(NSNotification *)noti
+{
+    
+    NSDictionary *dic = noti.userInfo;
+    _mainPageCycle = [[MainPageCycleView alloc] initWithFrame:CGRectMake(0, 0, MSScreenWidth(), 44)];
+    _mainPageCycle.delegate = self;
+    
+    _mainPageCycle.slideBtns = dic[@"heanlineData"];
+    [self.view addSubview:_mainPageCycle];
+
+}
+- (void)headLineBtnClick
+{
+    TCHeadlineController *headLineController = [[TCHeadlineController alloc] init];
+    
+    [self.navigationController pushViewController:headLineController animated:YES];
+}
+
+- (void)telBtnClick
+{
     
 }
 
@@ -55,8 +106,11 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
+    if ([self isViewLoaded] && self.view.window == nil) {
+        _model.dataSource = nil;
+    }
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

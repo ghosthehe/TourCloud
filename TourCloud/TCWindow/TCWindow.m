@@ -8,7 +8,6 @@
 
 #import "TCWindow.h"
 #import "RDVTabBarController.h"
-#import "ViewController.h"
 #import "TCShareViewController.h"
 #import "TCPayController.h"
 #import "TCWebController.h"

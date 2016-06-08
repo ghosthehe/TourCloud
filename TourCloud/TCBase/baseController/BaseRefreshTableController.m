@@ -82,7 +82,7 @@
     if (self.model.paramSetter == nil)
     {
         self.model.paramSetter = ^(NSMutableDictionary *param,EMTableRequestType requestType) {
-            param[@"pagesize"] = @"20";
+            param[@"pageSize"] = @"6";
         };
     }
 }

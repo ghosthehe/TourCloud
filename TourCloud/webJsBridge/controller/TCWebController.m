@@ -39,9 +39,7 @@
 
 - (void)viewDidLoad
 {
-//    [super viewDidLoad];
-    
-    
+    [super viewDidLoad];
     
     _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     _webView.backgroundColor = [UIColor whiteColor];

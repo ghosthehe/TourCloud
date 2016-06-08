@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "MSUIKitCore.h"
-#import "ViewController.h"
 #import "TCShareManager.h"
 #import "TCClick.h"
 #import "TCMessageManager.h"

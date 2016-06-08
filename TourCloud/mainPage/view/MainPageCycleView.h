@@ -7,12 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-@class TCCycleView;
+
+@protocol MainPageCycleViewDelegate <NSObject>
+
+- (void)headLineBtnClick;
+
+- (void)telBtnClick;
+
+@end
 
 @interface MainPageCycleView : UIView
 
-@property (nonatomic, strong) UIButton *headLineBtn;
-//@property (nonatomic, strong) TCCycleView *HeadlineCycleView;
-@property (nonatomic, strong) UIButton *telBtn;
+
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, strong) NSArray *slideBtns;
+
 
 @end

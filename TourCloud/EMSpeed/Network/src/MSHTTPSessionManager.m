@@ -19,16 +19,23 @@ NSString * const MSHTTPSessionManagerTaskDidFailedNotification = @"com.emoneyet.
     @synchronized(self)
     {
         if (__manager == nil) {
-            NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-            config.timeoutIntervalForRequest = 15;
-            __manager = [[MSHTTPSessionManager alloc] initWithSessionConfiguration:config];
-            __manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html", @"application/octet-stream", nil];
+//            NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+//            config.timeoutIntervalForRequest = 15;
+//            __manager = [[MSHTTPSessionManager alloc] initWithSessionConfiguration:config];
+//            __manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/html",@"text/plain", @"application/octet-stream", nil];
+//            
+//            if ([__manager.responseSerializer isKindOfClass:[AFJSONResponseSerializer class]])
+//            {
+//                AFJSONResponseSerializer *serializer = (AFJSONResponseSerializer *)__manager.responseSerializer;
+//                serializer.removesKeysWithNullValues = YES;
+//            }
             
-            if ([__manager.responseSerializer isKindOfClass:[AFJSONResponseSerializer class]])
-            {
-                AFJSONResponseSerializer *serializer = (AFJSONResponseSerializer *)__manager.responseSerializer;
-                serializer.removesKeysWithNullValues = YES;
-            }
+//            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//            manager.requestSerializer = [AFJSONRequestSerializer serializer];
+            __manager = [[MSHTTPSessionManager alloc]init];
+            __manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
+            
         }
     }
     return __manager;
@@ -71,11 +78,21 @@ NSString * const MSHTTPSessionManagerTaskDidFailedNotification = @"com.emoneyet.
               headerFields:(NSDictionary *)headers
                      block:(void (^)(MSHTTPResponse *response, NSURLSessionTask *task, BOOL success))block
 {
-    NSURLSessionTask *task = [self method:@"POST" URLString:URLString parameters:param headerFields:headers success:^(NSURLSessionTask *task, id responseObject) {
+//    NSURLSessionTask *task = [self method:@"POST" URLString:URLString parameters:param headerFields:headers success:^(NSURLSessionTask *task, id responseObject) {
+//        MSHTTPResponse *response = [MSHTTPResponse responseWithObject:responseObject];
+//        block(response, task, YES);
+//    } failure:^(NSURLSessionTask *task, NSError *error) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:MSHTTPSessionManagerTaskDidFailedNotification object:task];
+//        MSHTTPResponse *response = [MSHTTPResponse responseWithError:error];
+//        block(response, task, NO);
+//    }];
+    
+    NSURLSessionTask *task = [self POST:URLString parameters:param progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         MSHTTPResponse *response = [MSHTTPResponse responseWithObject:responseObject];
         block(response, task, YES);
-    } failure:^(NSURLSessionTask *task, NSError *error) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MSHTTPSessionManagerTaskDidFailedNotification object:task];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         MSHTTPResponse *response = [MSHTTPResponse responseWithError:error];
         block(response, task, NO);
     }];

@@ -7,6 +7,7 @@
 //
 
 #import "MainPageHotCell.h"
+#import "TCMainPageParserItem.h"
 
 @implementation MainPageHotCell
 
@@ -16,7 +17,9 @@
 
 - (void)update:(id<MSCellModel>)cellModel
 {
-    
+    if ([cellModel isKindOfClass:[TCMainPageParserItem class]]) {
+        
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

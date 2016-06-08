@@ -7,7 +7,12 @@
 //
 
 #import "MSCellModel.h"
+#import "TCHeadlineItem.h"
 
-@interface TCHeanlineCellModel : MSCellModel
+@interface TCHeadlineCellModel : MSCellModel
+
+@property (nonatomic, strong) TCHeadlineItem *item;
+@property (nonatomic, strong) NSAttributedString *title;
+@property (nonatomic, strong) NSAttributedString *timeAndAccessNum;
 
 @end

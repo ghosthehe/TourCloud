@@ -11,7 +11,7 @@
 #import "EMCycleScrollAdView.h"
 #import "MSUIKitCore.h"
 #import "MSMutableCollectionDataSource.h"
-#import "TCCycleModel.h"
+#import "TCHeadlineItem.h"
 
 #define WIDTH_OF_SCROLL_PAGE 320
 #define HEIGHT_OF_SCROLL_PAGE 460
@@ -24,11 +24,15 @@
     EMCycleScrollAdView *_cycleScrollView;
     UIScrollView *_scrollView;
     NSTimer *_timer;
+    NSInteger _currentPage;
+
     
 }
 
-@property (nonatomic, strong) NSArray *slideBtns;
+@property (nonatomic, strong) UIButton *headLineBtn;
+@property (nonatomic, strong) UIButton *telBtn;
 @property (nonatomic, strong) UIScrollView *scrollView;
+
 @end
 
 @implementation MainPageCycleView
@@ -36,14 +40,18 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        
-        [self initHeadLineBtn];
-        [self initTelBtn];
-        [self initScrollView];
+    
        
     }
     
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [self initHeadLineBtn];
+    [self initTelBtn];
+    [self initScrollView];
 }
 
 - (void)initHeadLineBtn
@@ -53,7 +61,7 @@
     self.headLineBtn.frame = CGRectMake(10, 5, 80, 30);
     [self.headLineBtn setTitle:@"旅游头条" forState:UIControlStateNormal];
     self.headLineBtn.backgroundColor = [UIColor redColor];
-    [self.headLineBtn addTarget:self action:@selector(headLineBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.headLineBtn addTarget:self action:@selector(slideBtn) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.headLineBtn];
     
     [self.headLineBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -88,11 +96,12 @@
 
 - (void)initScrollView
 {
-    self.slideBtns = [NSArray arrayWithObjects:@"徐汇",@"七宝",@"浦东新区", nil];
-    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 5, 200, 35)];
+    
+    _currentPage = 1;
+
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(110, 5,  (MSScreenWidth() / 375) * 180 , 35)];
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = YES;
-    self.scrollView.backgroundColor = [UIColor yellowColor];
     self.scrollView.pagingEnabled = YES;
     self.scrollView.delegate = self;
     [self addSubview:self.scrollView];
@@ -101,37 +110,27 @@
     self.scrollView.contentSize = CGSizeMake( 0, ([self.slideBtns count] + 2) * self.scrollView.frame.size.height);
     
     // 遍历创建子控件
-    [self.slideBtns enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-        UIButton *btn = [[UIButton alloc] init];
-        btn.tag = idx + 1;
-        [btn addTarget:self action:@selector(slideBtn:) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btn setTitle:imageName forState:UIControlStateNormal];
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        btn.frame = CGRectMake( 0, (idx+1)  * self.scrollView.frame.size.height, 200, self.scrollView.frame.size.height);
-        [self.scrollView addSubview:btn];
+    [self.slideBtns enumerateObjectsUsingBlock:^(TCHeadlineItem *item, NSUInteger idx, BOOL *stop) {
+        UILabel *label = [[UILabel alloc] init];
+        label.text = item.newstitle;
+        label.frame = CGRectMake( 0, (idx+1)  * self.scrollView.frame.size.height, 200, self.scrollView.frame.size.height);
+        [self.scrollView addSubview:label];
 
     }];
     
     // 将最后一张图片弄到第一张的位置
-    UIButton *firstBtn = [[UIButton alloc] init];
-    firstBtn.tag = 4;
-    [firstBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [firstBtn setTitle:self.slideBtns[[self.slideBtns count] - 1] forState:UIControlStateNormal];
-    firstBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-
-    firstBtn.frame = CGRectMake(0, 0, 200, self.scrollView.frame.size.height);
-    [self.scrollView addSubview:firstBtn];
+    UILabel *firstLabel = [[UILabel alloc] init];
+    TCHeadlineItem *lastItem = self.slideBtns[[self.slideBtns count] - 1];
+    firstLabel.text = lastItem.newstitle;
+    firstLabel.frame = CGRectMake(0, 0, 200, self.scrollView.frame.size.height);
+    [self.scrollView addSubview:firstLabel];
     
     // 将第一张图片放到最后位置，造成视觉上的循环
-    UIButton *lastBtn = [[UIButton alloc] init];
-    lastBtn.tag = 5;
-    [lastBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [lastBtn setTitle:self.slideBtns[0] forState:UIControlStateNormal];
-    lastBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-
-    lastBtn.frame =  CGRectMake(0, 35 * ([self.slideBtns count] + 1), 200, self.scrollView.frame.size.height);
-    [self.scrollView addSubview:lastBtn];
+    UILabel *lastLabel = [[UILabel alloc] init];
+    TCHeadlineItem *firstItem = self.slideBtns[0];
+    lastLabel.text = firstItem.newstitle;
+    lastLabel.frame =  CGRectMake(0, 35 * ([self.slideBtns count] + 1), 200, self.scrollView.frame.size.height);
+    [self.scrollView addSubview:lastLabel];
 
     
     [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.frame.size.height)];
@@ -139,11 +138,14 @@
 
     [self createTimer];
     
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(slideBtn)];
+    
+    [self.scrollView addGestureRecognizer:tapGestureRecognizer];
 }
 
 - (void)createTimer
 {
-    _timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(cycleScroll:) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(cycleScroll:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
     
     [_timer fire];
@@ -171,23 +173,13 @@
 
 - (void)cycleScroll:(NSTimer *)timer
 {
-    static int count = 0;
-    count ++;
-    
-    [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.frame.size.height * count) animated:YES];
+    if (_currentPage % (self.slideBtns.count + 1) != 0 || _currentPage == 1) {
+        
+        [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.frame.size.height * (_currentPage + 1)) animated:YES];
 
-    NSInteger page = self.scrollView.contentOffset.y / self.scrollView.frame.size.height;
-    // 如果当前页是第0页就跳转到数组中最后一个地方进行跳转
-    if (page == 0) {
-        [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.frame.size.height * ([[self slideBtns] count])) animated:YES];
+    }else if (_currentPage % (self.slideBtns.count + 1) == 0 && _currentPage != 1){
         
-
-        
-    }else if (page == [[self slideBtns] count] + 1){
-        // 如果是第最后一页就跳转到数组第一个元素的地点
-        [self.scrollView setContentOffset:CGPointMake( 0, self.scrollView.frame.size.height)];
-        
-        count = 1;
+        [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.frame.size.height) animated:YES];
 
     }
     
@@ -200,35 +192,39 @@
 }
 
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSInteger page = scrollView.contentOffset.y / scrollView.frame.size.height;
-//    
-//    if (page == 0) {
-//        
-//        [scrollView setContentOffset:CGPointMake( 0, scrollView.frame.size.height * ([[self slideBtns] count]))];
-//        
-//    }else if (page == [[self slideBtns] count] + 1){
-//        // 如果是第最后一页就跳转到数组第一个元素的地点
-//        [scrollView setContentOffset:CGPointMake(0, scrollView.frame.size.height)];
-//        
-//    }
-//    
-//}
-
-- (void)slideBtn:(UIButton *)btn
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    _currentPage = (NSInteger)((scrollView.contentOffset.y + 1) / scrollView.frame.size.height);
+    CGFloat horiPage = (scrollView.contentOffset.y) / scrollView.frame.size.height;
+    if (horiPage == self.slideBtns.count + 1) {
+        [scrollView setContentOffset:CGPointMake(0, scrollView.frame.size.height) animated:NO];
+    }
+    if (horiPage == 0) {
+        [scrollView setContentOffset:CGPointMake(0, self.slideBtns.count * scrollView.frame.size.height) animated:NO];
+    }
     
 }
 
-- (void)headLineBtn:(UIButton *)btn
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    
+    [self resume];
+}
+
+- (void)slideBtn
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(headLineBtnClick)]) {
+        
+        [self.delegate performSelector:@selector(headLineBtnClick) withObject:self];
+    }
 
 }
 
 - (void)telBtn:(UIButton *)btn
 {
-    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(telBtnClick)]) {
+        
+        [self.delegate performSelector:@selector(telBtnClick) withObject:self];
+    }
 }
 
 /*

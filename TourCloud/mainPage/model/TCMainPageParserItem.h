@@ -7,8 +7,8 @@
 //
 
 #import "MSParseableObject.h"
-
-@interface TCMainPageParserItem : MSParseableObject
+#import "MSCellModel.h"
+@interface TCMainPageParserItem : MSParseableObject<MSCellModel>
 
 
 @end
