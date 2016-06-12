@@ -9,6 +9,38 @@
 #ifndef DefineUntil_h
 #define DefineUntil_h
 
+#define titlecolor  UIColorFromRGB(0x4c4c4c)
+#define leftFont  [UIFont fontWithName:@"SYFZLTKHJW--GB1-0" size:12.0]
+
+//根视图
+#define TCApplication [UIApplication sharedApplication]
+
+// 通知
+#define TCNotificationCenter [NSNotificationCenter defaultCenter]
+
+//归档
+#define TCUserDefaults [NSUserDefaults standardUserDefaults]
+
+/** 多线程GCD*/
+#define TCGlobalGCD(block) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+#define MYMainGCD(block) dispatch_async(dispatch_get_main_queue(),block)
+
+
+//项目里面访问AppDelegate做全局变量
+#define TCAppDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
+
+// 颜色
+#define TCColor(r,g,b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+////颜色和透明度设置
+#define RGBA(r,g,b,a)  [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:a]
+
+/**字体*/
+#define MYSFont(x) [UIFont systemFontOfSize:x]
+#define MYFont(x) [UIFont fontWithName:@"SYFZLTKHJW--GB1-0" size:x]
+
 #define UMappkey        @"574ba7cbe0f55ac173002c2d"
 #define MobAppKey       @"134e99110be22"
 #define MobAppSecret    @"87db99a4f2de96fc0ea946af053fd999"

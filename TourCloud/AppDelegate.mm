@@ -15,6 +15,7 @@
 #import "DefineUntil.h"
 #import "TCPayManager.h"
 #import "TCMapManager.h"
+#import "UIImageView+WebCache.h"
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -40,6 +41,26 @@
     return YES;
 }
 
+
+/**
+ *  支付和UM分享回调
+ *
+ *  @param application <#application description#>
+ *  @param url         <#url description#>
+ *
+ *  @return <#return value description#>
+ */
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    
+    return  [[TCPayManager sharePayManager] handleOpenUrl:url sourceApplication:nil];;
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    return  [[TCPayManager sharePayManager] handleOpenUrl:url sourceApplication:sourceApplication];
+    
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     // 1.2.7版本开始不需要用户再手动注册devicetoken，SDK会自动注册
@@ -49,16 +70,6 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [[TCMessageManager shareMessageManager] didReceiveRemoteNotification:userInfo];
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    
-    return  [[TCPayManager sharePayManager] handleOpenUrl:url];;
-}
-
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    
-    return  [[TCPayManager sharePayManager] handleOpenUrl:url];;    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -86,6 +97,12 @@
     [self saveContext];
 }
 
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application{
+    // 停止所有的下载
+    [[SDWebImageManager sharedManager] cancelAll];
+    // 删除缓存
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+}
 #pragma mark - Core Data stack
 
 @synthesize managedObjectContext = _managedObjectContext;

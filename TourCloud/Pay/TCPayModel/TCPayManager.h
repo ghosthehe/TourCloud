@@ -13,7 +13,7 @@
 
 + (TCPayManager *)sharePayManager;
 
-- (BOOL)handleOpenUrl:(NSURL *)url;
+- (BOOL)handleOpenUrl:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
 
 
 @end

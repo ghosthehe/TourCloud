@@ -115,6 +115,9 @@
     
 }
 
+/**
+ *  支付宝支付
+ */
 - (void)apliPay
 {
     [[TCPayRequestModel sharePayRequestModel] jumpToPay:nil];;
@@ -133,7 +136,9 @@
     
 }
 
-//去微信支付页面
+/**
+ *  微信支付
+ */
 -(void)weixinzhifuBtn
 {
     [[TCPayRequestModel sharePayRequestModel] postPayRequest];;

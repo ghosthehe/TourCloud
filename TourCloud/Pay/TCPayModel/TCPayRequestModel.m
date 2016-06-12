@@ -72,27 +72,6 @@ static TCPayRequestModel *payRequestModel = nil;
     }];
 }
 
-- (void)onResp:(BaseResp *)resp {
-    if([resp isKindOfClass:[PayResp class]]){
-        //支付返回结果，实际支付结果需要去微信服务器端查询
-        NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
-        
-        switch (resp.errCode) {
-            case WXSuccess:
-                strMsg = @"支付结果：成功！";
-                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
-                break;
-                
-            default:
-                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
-                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-                break;
-        }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-    }
-}
-
 #pragma makr --支付宝支付
 - (void)jumpToPay:(NSDictionary *)orderDic
 {
@@ -113,28 +92,55 @@ static TCPayRequestModel *payRequestModel = nil;
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
         
+        
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:self.appScheme callback:^(NSDictionary *resultDic) {
-            NSDictionary *userInfo = nil;
-            BOOL success = NO;
-            if (resultDic && [resultDic isKindOfClass:[NSDictionary class]]) {
-                NSInteger resultStatus = [resultDic[@"resultStatus"] integerValue];
-                NSString *message = [self returnErrorMessage:resultStatus];
-                userInfo = @{NSLocalizedDescriptionKey:message};
-                NSString *result = resultDic[@"result"];
-                NSDictionary *dic = [self separated:result byString:@"&"];
-                success = [dic[@"success"] boolValue];
-                NSString *sign = dic[@"sign"];
-                //在resultStatus=9000，并且success=“true”以及sign=“xxx”校验通过的情况下，证明支付成功
-                if (resultStatus == 9000 && [sign isEqualToString:signedString] && success) {
-                    success = YES;
-                } else {
-                    success = NO;
-                }
+            
+            NSString * strTitle = [NSString stringWithFormat:@"支付结果"];
+            NSString *strMsg;
+            
+            //【callback处理支付结果】
+            if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
+                
+                strMsg = @"恭喜您，支付成功!";
+                //
+                //                for (UIViewController *controller in self.navigationController.viewControllers) {
+                //
+                //                    if([self.PayPath isEqualToString:@"1"]){
+                //
+                //                        if ([controller isKindOfClass:[MYOrderViewController class]]) {
+                //
+                //                            [self.navigationController popToViewController:controller animated:YES];
+                //                        }
+                //
+                //                    }else{
+                //                        if ([controller isKindOfClass:[MYHomeHospitalDeatilViewController class]]) {
+                //
+                //                            [self.navigationController popToViewController:controller animated:YES];
+                //                        }
+                //                    }
+                //                }
+                
+//                MYQuickPaySuccessViewController *PaySuccessVc = [[MYQuickPaySuccessViewController alloc]init];
+//                PaySuccessVc.PayPath = self.PayPath;
+//                
+//                [self.navigationController pushViewController:PaySuccessVc animated:YES];
+                
+                
+                
+                
+                
+            }else if([resultDic[@"resultStatus"] isEqualToString:@"6001"])
+            {
+                strMsg = @"已取消支付!";
+                
+            }else{
+                
+                strMsg = @"支付失败!";
             }
             
-//            NSError *error = [NSError errorWithDomain:NSStringFromClass(EMAlipay.class) code:EMAlipayErrorCode userInfo:userInfo];
-//            completion(success, resultDic, error);
-//            NSLog(@"reslut = %@",resultDic);
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            
+            [alert show];
         }];
     }
 }
@@ -169,8 +175,8 @@ static TCPayRequestModel *payRequestModel = nil;
     //订单超时时间
     order.itBPay = @"30m";
     
-    NSString * appSchem = @"alisdkdemo";
-    NSString *orderSpec = [order description];
+    self.appScheme = @"alisdkdemo";
+//    NSString *orderSpec = [order description];
     
     
     return order;

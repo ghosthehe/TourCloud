@@ -9,7 +9,7 @@
 #import "TCClick.h"
 #import <UMMobClick/MobClick.h>
 #import "DefineUntil.h"
-//#import "MSUIKitCore.h"
+#import "MSUIKitCore.h"
 
 static TCClick *click = nil;
 
@@ -34,15 +34,19 @@ static TCClick *click = nil;
     return self;
 }
 
+/**
+ *  友盟行为统计注册
+ */
 - (void)eventClick
 {
     //    [MobClick setAppVersion:XcodeAppVersion]; //参数为NSString * 类型,自定义app版本信息，如果不设置，默认从CFBundleVersion里取
     [MobClick setLogEnabled:YES];
     UMConfigInstance.appKey = UMappkey;
     UMConfigInstance.channelId = @"";
+    UMConfigInstance.ePolicy = BATCH;
     [MobClick startWithConfigure:UMConfigInstance];
     
-//    [MobClick setAppVersion:MSAppVersion()];
+    [MobClick setAppVersion:MSAppVersion()];
     
 }
 @end
